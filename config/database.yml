@@ -1,4 +1,5 @@
 default: &default
+  adapter: postgresql
   pool: 5
   timeout: 5000
 
@@ -9,7 +10,6 @@ development:
 
 #development:
 #  <<: *default
-#  adapter: postgresql
 #  encoding: unicode
 #  host: db
 #  username: postgres
@@ -18,12 +18,13 @@ development:
 
 test:
   <<: *default
-  adapter: postgresql
   database: sample_app_test
+  username: <%= ENV['POSTGRESQL_ENV_POSTGRES_USER'] || 'postgres' %>
+  password: <%= ENV['POSTGRESQL_ENV_POSTGRES_PASSWORD'] %>
+  host: <%= ENV['POSTGRESQL_ENV_POSTGRES_HOST'] || 'localhost' %>
 
 #test:
 #  <<: *default
-#  adapter: postgresql
 #  encoding: unicode
 #  host: db
 #  username: postgres
@@ -31,7 +32,6 @@ test:
 #  database: sample_rails_app_db_test
 
 production:
-  adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
